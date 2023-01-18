@@ -4,9 +4,6 @@ import React, { useState } from 'react'
 const InputBar = () => {
   const [text,setText] = useState('')
 
-  const updateText = (newText) => {
-    setText(newText)
-  }
 
 
   return (
