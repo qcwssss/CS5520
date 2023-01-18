@@ -1,15 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Header from './components/Header';
 import Input from './components/Input';
-import InputBar from './components/InputBar';
+
 
 export default function App() {
   const name = 'CS5520'
 
-  const onTextEnter = (inputText) => {
-    // console.log('called Text Enter')
-    console.log(inputText)
+  const [enteredText, setEnteredText] = useState('')
+
+  const onTextEnter = (textChanged) => {
+    setEnteredText(textChanged)
   }
 
   return (
@@ -18,6 +20,7 @@ export default function App() {
       <Header appName={name}/>
       <Input textUpdateFunction={onTextEnter}/>
       <StatusBar style="auto" />
+      <Text>{enteredText}</Text>
     </View>
   );
 }
