@@ -11,10 +11,12 @@ const Input = ({textUpdateFunction}) => {
       <TextInput style={ {backgroundColor: "red"}} value={text} 
       onChangeText={(changedText) => {
         setText(changedText)
-        textUpdateFunction(text)
       }}/>
 
-      <Button title='Confirm'></Button>
+      <Button title='Confirm' onPress={()=> {
+        textUpdateFunction(text)
+        setText('')
+      }}></Button>
     </View>
   )
 }
