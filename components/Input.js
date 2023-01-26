@@ -34,6 +34,7 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
         <View style={styles.btnContainer}>
           <View style={styles.button}>
             <Button
+              color="white"
               title="Confirm"
               onPress={() => {
                 textUpdateFunction(text);
@@ -42,7 +43,7 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
             ></Button>
           </View>
           <View style={styles.button}>
-            <Button title="Cancel" onPress={onCancel} />
+            <Button title="Cancel" color="white" onPress={onCancel} />
           </View>
         </View>
       </View>
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
   },
   input: {
     margin: 12,
-    alignItems: "center",
+    textAlign: "center",
     justifyContent: "center",
     borderBottomWidth: 3,
     padding: 10,
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   button: {
-    backgroundColor: "#aaa",
+    backgroundColor: "#00bfff",
     marginHorizontal: 5,
     fontSize: "10",
     width: "30%",

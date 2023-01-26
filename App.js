@@ -21,23 +21,27 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar style="auto" />
       <View style={styles.topContainer}>
-        <Text>Let's make some mobile app!</Text>
         <Header appName={name} />
-        <Button
-          title="Add task"
-          onPress={() => {
-            setModalVisible(true);
-          }}
-        />
+        <View style={styles.button}>
+          <Button
+            title="Add task"
+            color="white"
+            onPress={() => {
+              setModalVisible(true);
+            }}
+          />
+        </View>
       </View>
       <Input
         modalVisible={modalVisible}
-        onCancel={onCancel}
         textUpdateFunction={onTextEnter}
+        onCancel={onCancel}
       />
-      <StatusBar style="auto" />
-      <Text style={styles.typedText}>You typed {enteredText}</Text>
+      <View style={styles.bottomContainer}>
+        <Text style={styles.typedText}>You typed {enteredText}</Text>
+      </View>
     </SafeAreaView>
   );
 }
@@ -50,16 +54,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   typedText: {
-    paddingTop: 40,
+    padding: 40,
+    textAlign: "center",
     fontSize: 20,
     color: "blue",
   },
   topContainer: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
   bottomContainer: {
     flex: 4,
-    backgroundColor: "551255",
+    backgroundColor: "#dcd",
+  },
+  button: {
+    backgroundColor: "#00bfff",
+    marginTop: 20,
+    fontSize: "10",
+    width: "30%",
   },
 });
