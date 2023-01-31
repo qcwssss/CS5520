@@ -36,6 +36,7 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
             <Button
               color="white"
               title="Confirm"
+              disabled={!text.length}
               onPress={() => {
                 textUpdateFunction(text);
                 setText("");
