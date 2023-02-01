@@ -7,14 +7,15 @@ import {
   View,
   SafeAreaView,
   ScrollView,
+  FlatList,
 } from "react-native";
+import GoalItem from "./components/GoalItem";
 import Header from "./components/Header";
 import Input from "./components/Input";
 
 export default function App() {
   const name = "CS5520";
 
-  // const [enteredText, setEnteredText] = useState("...");
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -26,6 +27,16 @@ export default function App() {
 
   const onCancel = () => {
     setModalVisible(false);
+  };
+
+  const onDeletePressed = (deletedId) => {
+    console.log(`${deletedId} deleted`);
+
+    setGoals((prevGoals) => {
+      return prevGoals.filter((goal) => {
+        return goal.id !== deletedId;
+      });
+    });
   };
 
   return (
@@ -50,18 +61,14 @@ export default function App() {
       />
 
       <View style={styles.bottomContainer}>
-        <ScrollView
-          alwaysBounceVertical={false}
+        <FlatList
+          data={goals}
           contentContainerStyle={styles.scrollViewContainer}
-        >
-          {goals.map((goal) => {
-            return (
-              <View key={goal.id} style={styles.textContainer}>
-                <Text style={styles.typedText}>{goal.text}</Text>
-              </View>
-            );
-          })}
-        </ScrollView>
+          renderItem={({ item }) => {
+            console.log(item);
+            return <GoalItem item={item} onDelete={onDeletePressed} />;
+          }}
+        />
       </View>
     </SafeAreaView>
   );
@@ -80,8 +87,8 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     backgroundColor: "#aaa",
   },
-  typedText: {
-    fontSize: 80,
+  text: {
+    fontSize: 20,
     color: "blue",
   },
   topContainer: {
