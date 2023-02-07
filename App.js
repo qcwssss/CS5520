@@ -39,6 +39,10 @@ export default function App() {
     });
   };
 
+  const goalItemPressed = (pressId) => {
+    console.log(`${pressId} goal item pressed `);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -66,7 +70,13 @@ export default function App() {
           contentContainerStyle={styles.scrollViewContainer}
           renderItem={({ item }) => {
             console.log(item);
-            return <GoalItem item={item} onDelete={onDeletePressed} />;
+            return (
+              <GoalItem
+                item={item}
+                onDelete={onDeletePressed}
+                onGoalPressed={goalItemPressed}
+              />
+            );
           }}
         />
       </View>

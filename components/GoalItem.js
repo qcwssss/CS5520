@@ -1,20 +1,27 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button, Pressable } from "react-native";
 import React from "react";
 
-const GoalItem = ({ item, onDelete }) => {
+const GoalItem = ({ item, onDelete, onGoalPressed }) => {
   return (
-    <View style={styles.textContainer}>
-      <Text style={styles.text}>{item.text}</Text>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="X"
-          onPress={() => {
-            onDelete(item.id);
-          }}
-          color={"red"}
-        />
+    <Pressable
+      android_ripple={{ color: "red", borderless: true }}
+      onPress={() => {
+        onGoalPressed(item.id);
+      }}
+    >
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>{item.text}</Text>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="X"
+            onPress={() => {
+              onDelete(item.id);
+            }}
+            color={"red"}
+          />
+        </View>
       </View>
-    </View>
+    </Pressable>
   );
 };
 
