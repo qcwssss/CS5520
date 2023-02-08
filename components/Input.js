@@ -5,9 +5,11 @@ import {
   Modal,
   StyleSheet,
   Image,
+  Text,
 } from "react-native";
 
 import React, { useState } from "react";
+import ButtonComponent from "./PressableButton";
 
 const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
   const [text, setText] = useState("");
@@ -43,9 +45,16 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
               }}
             ></Button>
           </View>
-          <View style={styles.button}>
+          {/* <View style={styles.button}>
             <Button title="Cancel" color="white" onPress={onCancel} />
-          </View>
+          </View> */}
+          <ButtonComponent
+            style={styles.button}
+            pressHandler={onCancel}
+            btnStyle={styles.button}
+          >
+            <Text>Cancel</Text>
+          </ButtonComponent>
         </View>
       </View>
     </Modal>

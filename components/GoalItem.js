@@ -1,27 +1,31 @@
-import { View, Text, StyleSheet, Button, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
+import ButtonComponent from "./PressableButton";
+import { Feather } from "@expo/vector-icons";
 
 const GoalItem = ({ item, onDelete, onGoalPressed }) => {
   return (
-    <Pressable
-      android_ripple={{ color: "red", borderless: true }}
-      onPress={() => {
-        onGoalPressed(item.id);
-      }}
-    >
-      <View style={styles.textContainer}>
+    <View>
+      <Pressable
+        style={({ pressed }) => {
+          return [styles.textContainer, pressed && styles.pressedStyle];
+        }}
+        android_ripple={{ color: "red", borderless: true }}
+        onPress={() => {
+          onGoalPressed(item.id);
+        }}
+      >
         <Text style={styles.text}>{item.text}</Text>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="X"
-            onPress={() => {
-              onDelete(item.id);
-            }}
-            color={"red"}
-          />
-        </View>
-      </View>
-    </Pressable>
+        <ButtonComponent
+          // title={"X"}
+          pressHandler={() => {
+            onDelete(item.id);
+          }}
+        >
+          <Feather name="delete" size={24} color="black" />
+        </ButtonComponent>
+      </Pressable>
+    </View>
   );
 };
 
@@ -30,19 +34,20 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderRadius: 5,
     padding: 5,
-    marginVertical: 5,
+    marginVertical: 15,
     backgroundColor: "#aaa",
     justifyContent: "space-between",
   },
   text: {
     fontSize: 20,
     color: "blue",
-    alignSelf: "center",
+    // alignItems: "center",
     marginRight: 8,
   },
   buttonContainer: {
-    alignItems: "flex-end",
+    alignItems: "center",
   },
+  pressedStyle: { backgroundColor: "pink" },
 });
 
 export default GoalItem;
