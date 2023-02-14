@@ -2,8 +2,11 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import ButtonComponent from "./PressableButton";
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const GoalItem = ({ item, onDelete, onGoalPressed }) => {
+  const navigation = useNavigation();
+
   return (
     <View>
       <Pressable
@@ -12,12 +15,11 @@ const GoalItem = ({ item, onDelete, onGoalPressed }) => {
         }}
         android_ripple={{ color: "red", borderless: true }}
         onPress={() => {
-          onGoalPressed(item.id);
+          onGoalPressed(item);
         }}
       >
         <Text style={styles.text}>{item.text}</Text>
         <ButtonComponent
-          // title={"X"}
           pressHandler={() => {
             onDelete(item.id);
           }}
