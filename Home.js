@@ -14,22 +14,29 @@ import GoalItem from "./components/GoalItem";
 import Header from "./components/Header";
 import Input from "./components/Input";
 import { firestore } from "./Firebase/firebase-setup";
-import { writeToDB } from "./Firebase/firestore-helper";
+import { deleteFromDB, writeToDB } from "./Firebase/firestore-helper";
 
 export default function Home({ navigation }) {
   useEffect(() => {
-    onSnapshot(collection(firestore, "goals"), (querySnapShot) => {
-      if (querySnapShot.empty) {
-        // no data
-        setGoals([]);
-      } else {
-        let docs = [];
-        querySnapShot.docs.forEach((snap) => {
-          docs.push(snap.data());
-        });
-        setGoals(docs);
+    const unsbscribe = onSnapshot(
+      collection(firestore, "goals"),
+      (querySnapShot) => {
+        if (querySnapShot.empty) {
+          // no data
+          setGoals([]);
+        } else {
+          let docs = [];
+          querySnapShot.docs.forEach((snap) => {
+            // console.log(snap.id);
+            docs.push({ id: snap.id, ...snap.data() });
+          });
+          setGoals(docs);
+        }
       }
-    });
+    );
+    return () => {
+      unsbscribe();
+    };
   }, [goals]);
   const name = "CS5520";
 
@@ -51,12 +58,12 @@ export default function Home({ navigation }) {
 
   const onDeletePressed = (deletedId) => {
     console.log(`${deletedId} deleted`);
-
-    setGoals((prevGoals) => {
-      return prevGoals.filter((goal) => {
-        return goal.id !== deletedId;
-      });
-    });
+    deleteFromDB(deletedId);
+    // setGoals((prevGoals) => {
+    //   return prevGoals.filter((goal) => {
+    //     return goal.id !== deletedId;
+    //   });
+    // });
   };
 
   const goalItemPressed = (goal) => {
