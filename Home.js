@@ -1,5 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
+import { collection, onSnapshot, QuerySnapshot } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import {
   Button,
   StyleSheet,
@@ -12,17 +13,35 @@ import {
 import GoalItem from "./components/GoalItem";
 import Header from "./components/Header";
 import Input from "./components/Input";
+import { firestore } from "./Firebase/firebase-setup";
+import { writeToDB } from "./Firebase/firestore-helper";
 
 export default function Home({ navigation }) {
-  // console.log(navigation);
+  useEffect(() => {
+    onSnapshot(collection(firestore, "goals"), (querySnapShot) => {
+      if (querySnapShot.empty) {
+        // no data
+        setGoals([]);
+      } else {
+        let docs = [];
+        querySnapShot.docs.forEach((snap) => {
+          docs.push(snap.data());
+        });
+        setGoals(docs);
+      }
+    });
+  }, [goals]);
   const name = "CS5520";
 
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
   const onTextEnter = (textChanged) => {
-    let newGoal = { text: textChanged, id: Math.random() };
-    setGoals((prevGoals) => [...prevGoals, newGoal]);
+    let newGoal = { text: textChanged };
+    // , id: Math.random() };
+    writeToDB(newGoal);
+    // setGoals((prevGoals) => [...prevGoals, newGoal]);
+
     setModalVisible(false);
   };
 

@@ -10,6 +10,7 @@ import {
 
 import React, { useState } from "react";
 import ButtonComponent from "./PressableButton";
+import { writeToDB } from "../Firebase/firestore-helper";
 
 const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
   const [text, setText] = useState("");
@@ -41,6 +42,7 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
               disabled={!text.length}
               onPress={() => {
                 textUpdateFunction(text);
+                // writeToDB({ text: text });
                 setText("");
               }}
             ></Button>

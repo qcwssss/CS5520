@@ -20,26 +20,7 @@ const App = () => {
         }}
       >
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen
-          // options={({ route }) => {
-          //   return {
-          //     title: route.params.goalItem.text,
-          //     headerRight: () => {
-          //       return (
-          //         <Pressable
-          //           onPress={() => {
-          //             console.log("> pressed");
-          //           }}
-          //         >
-          //           <AntDesign name="rightcircleo" size={24} color="#eee" />
-          //         </Pressable>
-          //       );
-          //     },
-          //   };
-          // }}
-          name="GoalDetail"
-          component={GoalDetail}
-        />
+        <Stack.Screen name="GoalDetail" component={GoalDetail} />
         <Stack.Screen name="Help" component={Help} />
       </Stack.Navigator>
     </NavigationContainer>
