@@ -5,6 +5,7 @@ import { getAnalytics } from "firebase/analytics";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 import { getFirestore } from "firebase/firestore";
+import React from "react";
 import {
   apiKey,
   authDomain,
@@ -22,7 +23,7 @@ const firebaseConfig = {
   authDomain: authDomain,
   projectId: projectId,
   storageBucket: storageBucket,
-  messagingSenderId: measurementId,
+  messagingSenderId: messagingSenderId,
   appId: appId,
   measurementId: measurementId,
 };
