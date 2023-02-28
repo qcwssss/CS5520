@@ -2,6 +2,7 @@ import { View, Text, Pressable } from "react-native";
 import React, { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
+import GoalUsers from "./GoalUsers";
 
 const GoalDetail = ({ route }) => {
   // console.log(route);
@@ -29,6 +30,7 @@ const GoalDetail = ({ route }) => {
       <Text>
         You are viewing details of {goal.text} with id : {goal.id}
       </Text>
+      <GoalUsers />
     </View>
   );
 };
