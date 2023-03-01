@@ -7,9 +7,22 @@ const windowHeight = Dimensions.get("window").height;
 
 const Header = (props) => {
   const { height, width } = useWindowDimensions();
+  const paddingVerticalDynamic = height < 400 ? 0 : 5;
+  const marginVerticalDynamic = height < 400 ? 5 : 0;
+
   return (
     <View>
-      <Text style={styles.header}>Welcome to {props.appName}</Text>
+      <Text
+        style={[
+          styles.header,
+          {
+            paddingVertical: paddingVerticalDynamic,
+            marginTop: marginVerticalDynamic,
+          },
+        ]}
+      >
+        Welcome to {props.appName}
+      </Text>
     </View>
   );
 };
@@ -20,7 +33,6 @@ const styles = StyleSheet.create({
     borderColor: "rebeccapurple",
     borderWidth: 2,
     padding: 5,
-    // fontSize: 24,
     fontSize: windowWidth < 380 ? 20 : 26,
     paddingHorizontal: windowWidth < 380 ? 10 : 20,
     width: 350,
