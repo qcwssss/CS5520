@@ -1,5 +1,6 @@
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Button } from "react-native";
 import React, { useEffect, useState } from "react";
+import { async } from "@firebase/util";
 
 const GoalUsers = () => {
   const [users, setUsers] = useState([]);
@@ -24,6 +25,30 @@ const GoalUsers = () => {
     getUsers();
   }, []);
 
+  const addUser = async () => {
+    let url = "https://jsonplaceholder.typicode.com/posts";
+    try {
+      const response = await fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name: "Benuser", id: Math.random() }), // body data type must match "Content-Type" header
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setUsers((prevUsers) => {
+          return [...prevUsers, data.name];
+        });
+      } else {
+        throw new Error("POST error");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View>
       <FlatList
@@ -33,6 +58,7 @@ const GoalUsers = () => {
           return <Text>{item}</Text>;
         }}
       />
+      <Button title="Add User" onPress={addUser} />
     </View>
   );
 };
