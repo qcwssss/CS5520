@@ -22,7 +22,6 @@ const Signup = ({ navigation }) => {
     } catch (err) {
       console.log("Auth error", err);
     }
-    navigation.replace("Signup");
   };
 
   return (
@@ -53,7 +52,7 @@ const Signup = ({ navigation }) => {
         placeholder="Confrim Password"
         secureTextEntry={true}
       />
-      <Button title="Sign Up" onPress={signupHandler} />
+      <Button title="Register" onPress={signupHandler} />
       <Button title="Already Registered? Login" onPress={loginHandler} />
     </View>
   );

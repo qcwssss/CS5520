@@ -1,12 +1,18 @@
 import { View, Text, TextInput, Button } from "react-native";
 import React, { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Firebase/firebase-setup";
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginHandler = () => {
-    navigation.replace("Home");
+  const loginHandler = async () => {
+    try {
+      const userCred = await signInWithEmailAndPassword(auth, email, password);
+    } catch (err) {
+      console.log("Auth error", err);
+    }
   };
 
   const signupHandler = () => {
