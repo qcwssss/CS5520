@@ -8,6 +8,10 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./Firebase/firebase-setup";
+import Profile from "./components/Profile";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { signOut } from "firebase/auth";
 
 const Stack = createNativeStackNavigator();
 
@@ -20,9 +24,46 @@ const AuthStack = (
 
 const AppStack = (
   <>
-    <Stack.Screen name="Home" component={Home} />
+    <Stack.Screen
+      options={({ navigation }) => {
+        return {
+          title: "All My Goals",
+          headerRight: () => {
+            return (
+              <Ionicons
+                name="person"
+                size={24}
+                color="#eee"
+                onPress={() => navigation.navigate("Profile")}
+              />
+            );
+          },
+        };
+      }}
+      name="Home"
+      component={Home}
+    />
     <Stack.Screen name="GoalDetail" component={GoalDetail} />
     <Stack.Screen name="Help" component={Help} />
+    <Stack.Screen
+      options={() => {
+        return {
+          titile: "Profile2",
+          headerRight: () => {
+            return (
+              <MaterialIcons
+                name="logout"
+                size={24}
+                color="#eee"
+                onPress={() => signOut(auth)}
+              />
+            );
+          },
+        };
+      }}
+      name="Profile"
+      component={Profile}
+    />
   </>
 );
 
@@ -31,7 +72,6 @@ const App = () => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      console.log(user);
       if (user) {
         setIsAuthenticated(true);
       } else {
