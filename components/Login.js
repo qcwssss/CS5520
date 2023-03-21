@@ -27,6 +27,7 @@ const Login = ({ navigation }) => {
         onChange={(newEmail) => {
           setEmail(newEmail);
         }}
+        placeholder="Email"
       />
       <Text>Password</Text>
       <TextInput
@@ -34,6 +35,7 @@ const Login = ({ navigation }) => {
         onChange={(newPassword) => {
           setPassword(newPassword);
         }}
+        placeholder="Password"
       />
       <Button title="Log In" onPress={loginHandler} />
       <Button title="New User? Create a new account" onPress={signupHandler} />

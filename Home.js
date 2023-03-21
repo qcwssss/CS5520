@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { collection, onSnapshot, QuerySnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import {
   Button,
@@ -13,13 +13,17 @@ import {
 import GoalItem from "./components/GoalItem";
 import Header from "./components/Header";
 import Input from "./components/Input";
-import { firestore } from "./Firebase/firebase-setup";
+import { auth, firestore } from "./Firebase/firebase-setup";
 import { deleteFromDB, writeToDB } from "./Firebase/firestore-helper";
 
 export default function Home({ navigation }) {
   useEffect(() => {
     const unsbscribe = onSnapshot(
-      collection(firestore, "goals"),
+      // not working!
+      query(
+        collection(firestore, "goals"),
+        where("user", "==", auth.currentUser.uid)
+      ),
       (querySnapShot) => {
         if (querySnapShot.empty) {
           // no data
@@ -32,6 +36,9 @@ export default function Home({ navigation }) {
           });
           setGoals(docs);
         }
+      },
+      (error) => {
+        console.log(error);
       }
     );
     return () => {
