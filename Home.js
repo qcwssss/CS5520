@@ -52,19 +52,20 @@ export default function Home({ navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   async function fetchImageData(uri) {
-    console.log(uri);
+    console.log("uri", uri);
     const response = await fetch(uri);
-    const imageBlob = await response.blob();
+    const imageBlob = await response.blob(); //image data
     const imageName = uri.substring(uri.lastIndexOf("/") + 1);
-    const imageRef = await ref(storage, `images/${imageName}`);
+    const imageRef = ref(storage, `images/${imageName}`);
     const uploadResult = await uploadBytesResumable(imageRef, imageBlob);
     return uploadResult.metadata.fullPath;
   }
 
   const onTextEnter = async (dataFromInput) => {
     let imageUri;
+    console.log("input data", dataFromInput);
     if (dataFromInput.imageUri) {
-      imageUri = await fetchImageData(dataFromInput.uri);
+      imageUri = await fetchImageData(dataFromInput.imageUri);
     }
 
     let newGoal = { text: dataFromInput.text, imageUri: imageUri };
