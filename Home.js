@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { useEffect, useState } from "react";
+import { ref, uploadBytesResumable } from "firebase/storage";
 import {
   Button,
   StyleSheet,
@@ -13,8 +14,9 @@ import {
 import GoalItem from "./components/GoalItem";
 import Header from "./components/Header";
 import Input from "./components/Input";
-import { auth, firestore } from "./Firebase/firebase-setup";
+import { auth, firestore, storage } from "./Firebase/firebase-setup";
 import { deleteFromDB, writeToDB } from "./Firebase/firestore-helper";
+import { async } from "@firebase/util";
 
 export default function Home({ navigation }) {
   useEffect(() => {
@@ -51,14 +53,24 @@ export default function Home({ navigation }) {
 
   async function fetchImageData(uri) {
     console.log(uri);
+    const response = await fetch(uri);
+    const imageBlob = await response.blob();
+    const imageName = uri.substring(uri.lastIndexOf("/") + 1);
+    const imageRef = await ref(storage, `images/${imageName}`);
+    const uploadResult = await uploadBytesResumable(imageRef, imageBlob);
+    return uploadResult.metadata.fullPath;
   }
 
-  const onTextEnter = (textChanged) => {
-    let newGoal = { text: textChanged };
-    // , id: Math.random() };
+  const onTextEnter = async (dataFromInput) => {
+    let imageUri;
+    if (dataFromInput.imageUri) {
+      imageUri = await fetchImageData(dataFromInput.uri);
+    }
+
+    let newGoal = { text: dataFromInput.text, imageUri: imageUri };
+    console.log(newGoal);
     writeToDB(newGoal);
     // setGoals((prevGoals) => [...prevGoals, newGoal]);
-
     setModalVisible(false);
   };
 

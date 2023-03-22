@@ -32,10 +32,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const myApp = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(myApp);r
+
+// const analytics = getAnalytics(myApp);
 export const firestore = getFirestore(myApp);
 export const auth = initializeAuth(myApp, {
   persistence: getReactNativePersistence(AsyncStorage),
 });
-
-export const storage = getStorage();
+export const storage = getStorage(myApp);

@@ -49,7 +49,7 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
               title="Confirm"
               disabled={!text.length}
               onPress={() => {
-                textUpdateFunction(text);
+                textUpdateFunction({ text, imageUri });
                 // writeToDB({ text: text });
                 setText("");
               }}
