@@ -53,9 +53,6 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
               }}
             ></Button>
           </View>
-          {/* <View style={styles.button}>
-            <Button title="Cancel" color="white" onPress={onCancel} />
-          </View> */}
           <ButtonComponent
             style={styles.button}
             pressHandler={onCancel}

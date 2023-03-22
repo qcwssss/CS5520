@@ -2,46 +2,35 @@ import { View, Image, Button, Alert } from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 
-const ImageManager = () => {
+const ImageManager = ({ imageUriHandler }) => {
   const [imageUri, setImageUri] = useState("");
-  const [cameraPermissionInfo, requestCameraPermission] =
+  const [permissionInfo, requestPermission] =
     ImagePicker.useCameraPermissions();
 
-  const [mediaLibraryPermissionInfo, requestMediaLibraryPerssion] =
-    ImagePicker.useMediaLibraryPermissions();
-
-  const verifyCameraPermission = async () => {
-    if (!cameraPermissionInfo.granted) {
-      const response = await requestCameraPermission();
-      return response.granted;
+  async function verifyPermission() {
+    if (permissionInfo.granted) {
+      return true;
     }
-    return true;
-  };
-
-  const verifyLibraryPermission = async () => {
-    if (!mediaLibraryPermissionInfo.granted) {
-      const response = await requestMediaLibraryPerssion();
-      return response.granted;
-    }
-    return true;
-  };
+    const permissionResult = await requestPermission();
+    // this will be user's choice:
+    return permissionResult.granted;
+  }
 
   const takeImageHandler = async () => {
-    const hasPermission = await verifyCameraPermission();
-    console.log(hasPermission);
-    if (!hasPermission) {
+    const permissionReceived = await verifyPermission();
+    if (!permissionReceived) {
       Alert.alert("You need to give camera permission");
       return;
     }
     try {
-      const result = await ImagePicker.launchCameraAsync({
-        allowsEditing: true,
-      });
-      console.log(result);
-      console.log(result.assets[0].uri);
-      setImageUri(result.assets[0].uri);
+      const result = await ImagePicker.launchCameraAsync();
+      if (result.assets.length) {
+        let uri = result.assets[0].uri;
+        setImageUri(uri);
+        imageUriHandler(uri);
+      }
     } catch (err) {
-      console.log(err);
+      console.log("launch camera error ", err);
     }
   };
 
