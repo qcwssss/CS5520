@@ -17,7 +17,7 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
 
   const [imageUri, setImageUri] = useState("");
 
-  const imageHandler = (uri) => {
+  const imageUriHandler = (uri) => {
     setImageUri(uri);
   };
 
@@ -40,6 +40,8 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
           }}
         />
 
+        <ImageManager imageUriHandler={imageUriHandler} />
+
         <View style={styles.btnContainer}>
           <View style={styles.button}>
             <Button
@@ -60,7 +62,6 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
           >
             <Text>Cancel</Text>
           </ButtonComponent>
-          <ImageManager />
         </View>
       </View>
     </Modal>
