@@ -36,6 +36,7 @@ const Login = ({ navigation }) => {
           setPassword(newPassword);
         }}
         placeholder="Password"
+        secureTextEntry={true}
       />
       <Button title="Log In" onPress={loginHandler} />
       <Button title="New User? Create a new account" onPress={signupHandler} />

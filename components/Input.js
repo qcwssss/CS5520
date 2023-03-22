@@ -10,10 +10,16 @@ import {
 
 import React, { useState } from "react";
 import ButtonComponent from "./PressableButton";
-import { writeToDB } from "../Firebase/firestore-helper";
+import ImageManager from "./ImageManager";
 
 const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
   const [text, setText] = useState("");
+
+  const [imageUri, setImageUri] = useState("");
+
+  const imageHandler = (uri) => {
+    setImageUri(uri);
+  };
 
   return (
     <Modal visible={modalVisible}>
@@ -57,6 +63,7 @@ const Input = ({ modalVisible, textUpdateFunction, onCancel }) => {
           >
             <Text>Cancel</Text>
           </ButtonComponent>
+          <ImageManager />
         </View>
       </View>
     </Modal>

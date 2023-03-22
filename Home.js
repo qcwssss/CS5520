@@ -19,7 +19,6 @@ import { deleteFromDB, writeToDB } from "./Firebase/firestore-helper";
 export default function Home({ navigation }) {
   useEffect(() => {
     const unsbscribe = onSnapshot(
-      // not working!
       query(
         collection(firestore, "goals"),
         where("user", "==", auth.currentUser.uid)
@@ -49,6 +48,10 @@ export default function Home({ navigation }) {
 
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+
+  async function fetchImageData(uri) {
+    console.log(uri);
+  }
 
   const onTextEnter = (textChanged) => {
     let newGoal = { text: textChanged };
