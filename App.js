@@ -12,6 +12,7 @@ import Profile from "./components/Profile";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { signOut } from "firebase/auth";
+import Map from "./components/Map";
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,8 @@ const AppStack = (
       component={Home}
     />
     <Stack.Screen name="GoalDetail" component={GoalDetail} />
+    <Stack.Screen name="Map" component={Map} />
+
     <Stack.Screen name="Help" component={Help} />
     <Stack.Screen
       options={() => {

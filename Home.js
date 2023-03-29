@@ -16,7 +16,6 @@ import Header from "./components/Header";
 import Input from "./components/Input";
 import { auth, firestore, storage } from "./Firebase/firebase-setup";
 import { deleteFromDB, writeToDB } from "./Firebase/firestore-helper";
-import { async } from "@firebase/util";
 
 export default function Home({ navigation }) {
   useEffect(() => {
@@ -62,13 +61,15 @@ export default function Home({ navigation }) {
   }
 
   const onTextEnter = async (dataFromInput) => {
-    let imageUri;
+    let imageUri = "";
+    let newGoal = { text: dataFromInput.text };
+
     console.log("input data", dataFromInput);
     if (dataFromInput.imageUri) {
       imageUri = await fetchImageData(dataFromInput.imageUri);
     }
 
-    let newGoal = { text: dataFromInput.text, imageUri: imageUri };
+    newGoal = { ...newGoal, imageUri: imageUri };
     console.log(newGoal);
     writeToDB(newGoal);
     // setGoals((prevGoals) => [...prevGoals, newGoal]);
