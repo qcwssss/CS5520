@@ -3,6 +3,11 @@ import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { MAPS_API_KEY } from "@env";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import {
+  getUserLocation,
+  saveUser,
+  saveUserLocation,
+} from "../Firebase/firestore-helper";
 
 const LocationManger = () => {
   const navigation = useNavigation();
@@ -16,6 +21,18 @@ const LocationManger = () => {
       setLocation(route.params.selectedLocation);
     }
   }, [route]);
+
+  useEffect(() => {
+    async function fetchLocation() {
+      try {
+        const data = await getUserLocation();
+        console.log("location data:", data);
+        setLocation(data.location);
+      } catch (err) {
+        console.log("get user location", err);
+      }
+    }
+  });
 
   const [permissionResponse, requestPermission] =
     Location.useForegroundPermissions();
@@ -39,20 +56,32 @@ const LocationManger = () => {
       return;
     }
     try {
-      const coordinate = await Location.getCurrentPositionAsync();
-      console.log(coordinate);
+      const result = await Location.getCurrentPositionAsync();
+      console.log("coor:", result);
       setLocation({
-        latitude: 49.280484322884,
-        longitude: -123.11635565301079,
+        latitude: result.coords.latitude,
+        longitude: result.coords.longitude,
       });
+      // saveUser({
+      //   location:{
+      //     latitude: result.coords.latitude,
+      //   longitude: result.coords.longitude,
+      //   }
+      // })
       console.log("location", location);
     } catch (err) {
       console.log("location error", err);
     }
   };
 
-  const locationChooseHandler = () => {
-    navigation.navigate("Map");
+  const saveUser = async () => {
+    await saveUserLocation({ location });
+    navigation.navigate("Home");
+  };
+
+  const locationSelectHandler = () => {
+    if (location) navigation.navigate("Map", { currentLocation: location });
+    else navigation.navigate("Map");
   };
   return (
     <View>
@@ -66,7 +95,8 @@ const LocationManger = () => {
           style={{ width: "100%", height: 100 }}
         />
       )}
-      <Button title="Let Me Choose Location" onPress={locationChooseHandler} />
+      <Button title="Let Me Choose Location" onPress={locationSelectHandler} />
+      <Button title="Save User Location" onPress={saveUser} />
     </View>
   );
 };

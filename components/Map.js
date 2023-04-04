@@ -3,8 +3,9 @@ import React, { useState } from "react";
 import MapView from "react-native-maps";
 import { Marker } from "react-native-maps";
 
-const Map = ({ navigation }) => {
+const Map = ({ navigation, route }) => {
   const [selectedLocation, setSelectedLocation] = useState(null);
+  console.log(route.params);
   //   console.log("selected", selectedLocation);
 
   return (
@@ -19,8 +20,12 @@ const Map = ({ navigation }) => {
           });
         }}
         initialRegion={{
-          latitude: 49.280583,
-          longitude: -123.115732,
+          latitude: route.params
+            ? route.params.currentLocation.latitude
+            : 49.280583,
+          longitude: route.params
+            ? route.params.currentLocation.longitude
+            : -123.115732,
           latitudeDelta: 0.092,
           longitudeDelta: 0.0421,
         }}
@@ -37,6 +42,7 @@ const Map = ({ navigation }) => {
       </MapView>
 
       <Button
+        disabled={!selectedLocation}
         title="confirm selected location"
         onPress={() => {
           navigation.navigate("Profile", {
