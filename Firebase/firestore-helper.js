@@ -40,7 +40,8 @@ const deleteFromDB = async (id) => {
 
 const getUserLocation = async () => {
   try {
-    const docSnap = await getDoc(ref(firestore, "users", auth.currentUser.uid));
+    const docSnap = await getDoc(doc(firestore, "users", auth.currentUser.uid));
+
     // console.log("docSnap", docSnap);
     if (docSnap.exists()) {
       return docSnap.data();
