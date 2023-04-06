@@ -10,14 +10,34 @@ import {
   SafeAreaView,
   ScrollView,
   FlatList,
+  Alert,
 } from "react-native";
 import GoalItem from "./components/GoalItem";
 import Header from "./components/Header";
 import Input from "./components/Input";
 import { auth, firestore, storage } from "./Firebase/firebase-setup";
 import { deleteFromDB, writeToDB } from "./Firebase/firestore-helper";
+import * as Notifications from "expo-notifications";
+import { verifyPermission } from "./components/NotifactionManager";
 
 export default function Home({ navigation }) {
+  useEffect(() => {
+    const getToken = async () => {
+      try {
+        const permission = await verifyPermission();
+        if (permission) {
+          Alert.alert("You need to give notification permission");
+          return;
+        }
+        const token = await Notifications.getExpoPushTokenAsync();
+        console.log("token:", token);
+      } catch (error) {
+        console.log("toke error", error);
+      }
+    };
+    getToken();
+  });
+
   useEffect(() => {
     const unsbscribe = onSnapshot(
       query(

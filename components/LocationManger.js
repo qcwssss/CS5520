@@ -5,7 +5,6 @@ import { MAPS_API_KEY } from "@env";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import {
   getUserLocation,
-  saveUser,
   saveUserLocation,
 } from "../Firebase/firestore-helper";
 
@@ -32,7 +31,8 @@ const LocationManger = () => {
         console.log("get user location", err);
       }
     }
-  });
+    fetchLocation();
+  }, []);
 
   const [permissionResponse, requestPermission] =
     Location.useForegroundPermissions();

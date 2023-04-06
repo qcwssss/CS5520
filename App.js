@@ -13,8 +13,20 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { signOut } from "firebase/auth";
 import Map from "./components/Map";
+import * as Notifications from "expo-notifications";
+import { Linking } from "react-native";
 
 const Stack = createNativeStackNavigator();
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => {
+    return {
+      shouldPlaySound: true,
+      shouldSetBadge: true,
+      shouldShowAlert: true,
+    };
+  },
+});
 
 const AuthStack = (
   <>
@@ -72,6 +84,34 @@ const AppStack = (
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log("This notification received:", notification);
+      }
+    );
+    const subscription2 = Notifications.addNotificationResponseReceivedListener(
+      async (response) => {
+        console.log(
+          "This notification was interacted with:",
+          response.notification
+        );
+        let web = response.notification.request.content.data.url;
+        console.log(web);
+        try {
+          // TODO
+          await Linking.openURL({ url: web });
+        } catch (error) {
+          console.log("open url error:", error);
+        }
+      }
+    );
+    return () => {
+      subscription.remove();
+      subscription2.remove();
+    };
+  }, []);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {

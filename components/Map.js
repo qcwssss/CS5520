@@ -22,7 +22,7 @@ const Map = ({ navigation, route }) => {
         initialRegion={{
           latitude: route.params
             ? route.params.currentLocation.latitude
-            : 49.280583,
+            : 37.78825,
           longitude: route.params
             ? route.params.currentLocation.longitude
             : -123.115732,

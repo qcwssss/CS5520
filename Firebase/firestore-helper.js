@@ -7,6 +7,7 @@ import {
   setDoc,
   getDoc,
 } from "firebase/firestore";
+import { ref } from "firebase/storage";
 import { firestore } from "./firebase-setup";
 import { auth } from "./firebase-setup";
 
@@ -39,12 +40,13 @@ const deleteFromDB = async (id) => {
 
 const getUserLocation = async () => {
   try {
-    const snapShot = await getDoc(
-      ref(firestore, "users", auth.currentUser.uid)
-    );
-    return snapShot.data;
+    const docSnap = await getDoc(ref(firestore, "users", auth.currentUser.uid));
+    // console.log("docSnap", docSnap);
+    if (docSnap.exists()) {
+      return docSnap.data();
+    }
   } catch (error) {
-    console.log("get location error", error);
+    console.log("fetch location error", error);
   }
 };
 
