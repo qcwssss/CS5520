@@ -86,7 +86,7 @@ const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const subscription = Notifications.addNotificationReceivedListener(
+    const subscription1 = Notifications.addNotificationReceivedListener(
       (notification) => {
         console.log("This notification received:", notification);
       }
@@ -98,17 +98,18 @@ const App = () => {
           response.notification
         );
         let web = response.notification.request.content.data.url;
+
         console.log(web);
         try {
           // TODO
-          await Linking.openURL({ url: web });
+          await Linking.openURL(response.notification.request.content.data.url);
         } catch (error) {
           console.log("open url error:", error);
         }
       }
     );
     return () => {
-      subscription.remove();
+      subscription1.remove();
       subscription2.remove();
     };
   }, []);

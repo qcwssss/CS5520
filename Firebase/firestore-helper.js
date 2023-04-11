@@ -23,9 +23,11 @@ const writeToDB = async (goal) => {
   }
 };
 
-const saveUserLocation = async (location) => {
+const saveUserData = async (data) => {
   try {
-    await setDoc(doc(firestore, "users", auth.currentUser.uid), location);
+    await setDoc(doc(firestore, "users", auth.currentUser.uid), data, {
+      merge: true,
+    });
   } catch (err) {
     console.log("save user location error", err);
   }
@@ -51,4 +53,4 @@ const getUserLocation = async () => {
   }
 };
 
-export { writeToDB, deleteFromDB, saveUserLocation, getUserLocation };
+export { writeToDB, deleteFromDB, saveUserData, getUserLocation };

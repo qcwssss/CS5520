@@ -16,7 +16,11 @@ import GoalItem from "./components/GoalItem";
 import Header from "./components/Header";
 import Input from "./components/Input";
 import { auth, firestore, storage } from "./Firebase/firebase-setup";
-import { deleteFromDB, writeToDB } from "./Firebase/firestore-helper";
+import {
+  deleteFromDB,
+  saveUserData,
+  writeToDB,
+} from "./Firebase/firestore-helper";
 import * as Notifications from "expo-notifications";
 import { verifyPermission } from "./components/NotifactionManager";
 
@@ -24,13 +28,21 @@ export default function Home({ navigation }) {
   useEffect(() => {
     const getToken = async () => {
       try {
+        if (Platform.OS === "android") {
+          await Notifications.setNotificationChannelAsync("default", {
+            name: "default",
+            importance: Notifications.AndroidImportance.MAX,
+          });
+        }
+
         const permission = await verifyPermission();
-        if (permission) {
+        if (!permission) {
           Alert.alert("You need to give notification permission");
           return;
         }
         const token = await Notifications.getExpoPushTokenAsync();
         console.log("token:", token);
+        saveUserData({ token: token.data });
       } catch (error) {
         console.log("toke error", error);
       }
@@ -70,6 +82,21 @@ export default function Home({ navigation }) {
   const [goals, setGoals] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const pushNotificationHandler = async () => {
+    const res = await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        token: "ExponentPushToken[QASMnAF49Jy6p7i-k5uHwg]",
+        title: "Push Notification",
+        body: "This is a push notification",
+      }),
+    });
+    console.log(res.json());
+  };
+
   async function fetchImageData(uri) {
     console.log("uri", uri);
     const response = await fetch(uri);
@@ -103,11 +130,6 @@ export default function Home({ navigation }) {
   const onDeletePressed = (deletedId) => {
     console.log(`${deletedId} deleted`);
     deleteFromDB(deletedId);
-    // setGoals((prevGoals) => {
-    //   return prevGoals.filter((goal) => {
-    //     return goal.id !== deletedId;
-    //   });
-    // });
   };
 
   const goalItemPressed = (goal) => {
@@ -130,6 +152,10 @@ export default function Home({ navigation }) {
             }}
           />
         </View>
+        <Button
+          title="test push notification"
+          onPress={pushNotificationHandler}
+        />
       </View>
       <Input
         modalVisible={modalVisible}

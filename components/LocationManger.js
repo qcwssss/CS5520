@@ -3,10 +3,7 @@ import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import { MAPS_API_KEY } from "@env";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import {
-  getUserLocation,
-  saveUserLocation,
-} from "../Firebase/firestore-helper";
+import { getUserLocation, saveUserData } from "../Firebase/firestore-helper";
 
 const LocationManger = () => {
   const navigation = useNavigation();
@@ -75,7 +72,7 @@ const LocationManger = () => {
   };
 
   const saveUser = async () => {
-    await saveUserLocation({ location });
+    await saveUserData({ location });
     navigation.navigate("Home");
   };
 

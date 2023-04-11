@@ -25,7 +25,7 @@ export default function NotificationManager() {
         content: {
           title: "First Notification",
           body: "1st notificiation body",
-          data: { url: "www.google.com" },
+          data: { url: "https://www.google.com" },
         },
         trigger: { seconds: 5 },
       });

@@ -14,7 +14,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -22,7 +24,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -35,6 +40,11 @@
           "photoPermission": "Allow $(PRODUCT_NAME) to access your microphone"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "4408F1A6-0F3F-4D7F-8F7E-1B3C6DE02D94"
+      }
+    }
   }
 }
